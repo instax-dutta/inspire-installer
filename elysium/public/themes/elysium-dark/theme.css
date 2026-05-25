@@ -1,0 +1,749 @@
+/* ==========================================================================
+   Elysium — AdminLTE 2 / Pterodactyl Admin Overrides
+   Direction: terminal operations console
+   Font: JetBrains Mono
+   ========================================================================== */
+
+:root {
+  --oc-admin-sidebar:       #0f0f0f;
+  --oc-admin-topbar:        rgba(18, 18, 18, 0.94);
+  --oc-admin-active:        rgba(0, 122, 255, 0.08);
+  --oc-admin-hover:         rgba(255, 255, 255, 0.045);
+  --oc-admin-rule:          rgba(255, 255, 255, 0.045);
+  --oc-admin-rule-soft:     rgba(255, 255, 255, 0.03);
+  --oc-admin-surface:       #0f0f0f;
+  --oc-admin-surface-raised: #141313;
+}
+
+/* ==========================================================================
+   Body & Wrapper
+   ========================================================================== */
+
+body,
+.wrapper,
+.content-wrapper,
+.right-side {
+  background:
+    radial-gradient(ellipse 90rem 40rem at 34% -18rem, rgba(0, 122, 255, 0.06), transparent 58%),
+    var(--oc-canvas) !important;
+  color: var(--oc-body) !important;
+  font-family: var(--oc-font) !important;
+}
+
+body,
+body * {
+  text-shadow: none !important;
+}
+
+/* ==========================================================================
+   Sidebar
+   ========================================================================== */
+
+.skin-blue .wrapper,
+.skin-blue .main-sidebar,
+.skin-blue .left-side {
+  background: var(--oc-admin-sidebar) !important;
+}
+
+.skin-blue .main-sidebar {
+  border-right: 1px solid var(--oc-admin-rule) !important;
+  padding-top: 56px !important;
+}
+
+.skin-blue .sidebar a,
+.skin-blue .sidebar-menu > li > a {
+  color: var(--oc-body) !important;
+  font-family: var(--oc-font) !important;
+}
+
+.sidebar {
+  padding: 10px 10px 18px !important;
+}
+
+/* Section headers — monospaced uppercase like a term config */
+.skin-blue .sidebar-menu > li.header {
+  background: transparent !important;
+  color: var(--oc-muted) !important;
+  font-family: var(--oc-font) !important;
+  font-size: 11px !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+  padding: 17px 9px 8px !important;
+}
+
+.skin-blue .sidebar-menu > li > a {
+  position: relative !important;
+  border-left: 0 !important;
+  margin: 1px 0 !important;
+  padding: 10px 12px 10px 18px !important;
+  border-radius: 0 !important;
+  font-weight: 400 !important;
+  letter-spacing: 0 !important;
+}
+
+.skin-blue .sidebar-menu > li:hover > a,
+.skin-blue .sidebar-menu > li.active > a,
+.skin-blue .sidebar-menu > li.menu-open > a {
+  background: transparent !important;
+  color: var(--oc-ink) !important;
+}
+
+/* Accent indicator — thin 2px left bar like a VS Code active tab */
+.skin-blue .sidebar-menu > li > a::before {
+  content: '' !important;
+  position: absolute !important;
+  left: 0 !important;
+  top: 9px !important;
+  bottom: 9px !important;
+  width: 2px !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+}
+
+.skin-blue .sidebar-menu > li:hover > a::before,
+.skin-blue .sidebar-menu > li.active > a::before,
+.skin-blue .sidebar-menu > li.menu-open > a::before {
+  background: var(--oc-accent) !important;
+}
+
+.skin-blue .sidebar-menu > li.active > a {
+  background: transparent !important;
+}
+
+.skin-blue .sidebar-menu > li > a > i {
+  width: 18px !important;
+  margin-right: 8px !important;
+  color: var(--oc-muted) !important;
+  text-align: center !important;
+}
+
+.skin-blue .sidebar-menu > li.active > a > i,
+.skin-blue .sidebar-menu > li:hover > a > i {
+  color: var(--oc-ink) !important;
+}
+
+.skin-blue .sidebar-menu > li > .treeview-menu {
+  background: transparent !important;
+}
+
+.skin-blue .treeview-menu > li > a,
+.skin-blue .treeview-menu > li.active > a,
+.skin-blue .treeview-menu > li > a:hover {
+  color: var(--oc-body) !important;
+}
+
+/* ==========================================================================
+   Header / Topbar
+   ========================================================================== */
+
+.skin-blue .main-header .logo,
+.skin-blue .main-header .navbar,
+.main-header .logo,
+.main-header .navbar,
+.navbar-static-top {
+  background: var(--oc-admin-topbar) !important;
+  color: var(--oc-ink) !important;
+  border-bottom: 1px solid var(--oc-admin-rule) !important;
+  box-shadow: none !important;
+  min-height: 56px !important;
+}
+
+.skin-blue .main-header .logo {
+  border-right: 1px solid var(--oc-admin-rule) !important;
+  font-family: var(--oc-font) !important;
+  font-weight: 700 !important;
+  letter-spacing: 0 !important;
+  line-height: 56px !important;
+  height: 56px !important;
+  font-size: 16px !important;
+  text-align: left !important;
+  padding-left: 28px !important;
+}
+
+.skin-blue .main-header .logo:hover,
+.skin-blue .main-header .navbar .sidebar-toggle:hover,
+.skin-blue .main-header .navbar .nav > li > a:hover,
+.skin-blue .main-header .navbar .nav > li > a:focus {
+  background: var(--oc-admin-hover) !important;
+  color: var(--oc-ink) !important;
+}
+
+.main-header .navbar .sidebar-toggle {
+  height: 56px !important;
+  padding: 18px 17px !important;
+  color: var(--oc-body) !important;
+}
+
+.main-header .navbar .nav > li > a {
+  height: 56px !important;
+  padding-top: 18px !important;
+  padding-bottom: 18px !important;
+  color: var(--oc-body) !important;
+}
+
+.navbar-nav > .user-menu > a {
+  display: flex !important;
+  align-items: center !important;
+  gap: 9px !important;
+}
+
+.navbar-nav > .user-menu .user-image {
+  width: 24px !important;
+  height: 24px !important;
+  margin-top: 0 !important;
+  border: 1px solid var(--oc-admin-rule) !important;
+}
+
+/* ==========================================================================
+   Content Header
+   ========================================================================== */
+
+.content-header > h1,
+.content-header > h1 > small,
+.box-title,
+.modal-title {
+  color: var(--oc-ink) !important;
+}
+
+.content-wrapper {
+  min-height: calc(100vh - 56px) !important;
+}
+
+.content-header {
+  padding: 18px 28px 8px !important;
+}
+
+.content-header > h1 {
+  font-family: var(--oc-font) !important;
+  font-size: 20px !important;
+  line-height: 1.5 !important;
+  font-weight: 700 !important;
+  letter-spacing: 0 !important;
+}
+
+.content-header > h1 > small {
+  display: inline-block !important;
+  margin-left: 4px !important;
+  font-family: var(--oc-font) !important;
+  font-size: 14px !important;
+  letter-spacing: 0 !important;
+  font-weight: 400 !important;
+}
+
+.content-header > .breadcrumb {
+  top: 20px !important;
+  right: 28px !important;
+  font-family: var(--oc-font) !important;
+  font-size: 12px !important;
+  color: var(--oc-muted) !important;
+}
+
+.content {
+  padding: 8px 28px 28px !important;
+}
+
+.content-header > h1 > small,
+.main-footer,
+.small.text-gray,
+.text-muted,
+.help-block {
+  color: var(--oc-muted) !important;
+}
+
+/* ==========================================================================
+   Boxes / Cards
+   ========================================================================== */
+
+.box,
+.small-box,
+.info-box,
+.callout,
+.nav-tabs-custom,
+.modal-content,
+.well {
+  background: linear-gradient(180deg, var(--oc-admin-surface-raised) 0%, var(--oc-admin-surface) 100%) !important;
+  color: var(--oc-body) !important;
+  border: 1px solid var(--oc-admin-rule) !important;
+  border-radius: 0 !important;
+  box-shadow: var(--oc-shadow-sm) !important;
+}
+
+.box-header {
+  padding: 16px 20px 14px !important;
+  background: transparent !important;
+}
+
+.box-body {
+  padding: 20px !important;
+}
+
+.box-header,
+.box-footer,
+.nav-tabs-custom > .nav-tabs,
+.modal-header,
+.modal-footer {
+  background: transparent !important;
+  border-color: var(--oc-admin-rule-soft) !important;
+}
+
+.box.box-primary,
+.box.box-info,
+.box.box-success,
+.box.box-warning,
+.box.box-danger {
+  border-top-color: var(--oc-admin-rule) !important;
+}
+
+.box-title {
+  font-family: var(--oc-font) !important;
+  font-size: 16px !important;
+  font-weight: 500 !important;
+  letter-spacing: 0 !important;
+  color: var(--oc-ink) !important;
+}
+
+/* ==========================================================================
+   Tables
+   ========================================================================== */
+
+.table,
+.table > tbody > tr > td,
+.table > tbody > tr > th,
+.table > tfoot > tr > td,
+.table > thead > tr > th {
+  color: var(--oc-body) !important;
+  border-color: var(--oc-admin-rule-soft) !important;
+  background: transparent !important;
+  font-family: var(--oc-font) !important;
+}
+
+.table > thead > tr > th {
+  color: var(--oc-muted) !important;
+  font-family: var(--oc-font) !important;
+  font-size: 11px !important;
+  font-weight: 400 !important;
+  text-transform: none !important;
+  letter-spacing: 0 !important;
+}
+
+.table > tbody > tr > td {
+  vertical-align: middle !important;
+  font-size: 14px;
+}
+
+.table-hover > tbody > tr:hover,
+.table-striped > tbody > tr:nth-of-type(odd) {
+  background: var(--oc-admin-hover) !important;
+}
+
+/* ==========================================================================
+   Code
+   ========================================================================== */
+
+.content code,
+.content kbd,
+.content pre,
+.content samp,
+.content td code,
+.content td kbd,
+.content td pre,
+.content td samp,
+.content .label-default,
+.content .badge {
+  background: rgba(255, 255, 255, 0.045) !important;
+  border: 1px solid var(--oc-admin-rule) !important;
+  border-radius: var(--oc-radius-sm) !important;
+  color: var(--oc-body) !important;
+  font-family: var(--oc-font) !important;
+  font-size: 12px !important;
+  font-weight: 400 !important;
+  padding: 2px 5px !important;
+}
+
+.box .table,
+.box .table-bordered,
+.box .table-responsive,
+.box .dataTables_wrapper {
+  background: transparent !important;
+}
+
+/* ==========================================================================
+   Small Box (stat widgets)
+   ========================================================================== */
+
+.small-box {
+  position: relative;
+  overflow: hidden;
+  background: var(--oc-admin-surface-raised) !important;
+  border-radius: 0 !important;
+}
+
+.small-box::after {
+  content: '';
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 1px;
+  background: var(--oc-accent);
+  opacity: 0.6;
+}
+
+.info-box {
+  background: var(--oc-admin-surface-raised) !important;
+}
+
+/* ==========================================================================
+   Form Controls (Admin)
+   ========================================================================== */
+
+.form-control,
+.select2-container--default .select2-selection--single,
+.select2-container--default .select2-selection--multiple {
+  background: var(--oc-canvas) !important;
+  color: var(--oc-ink) !important;
+  border: 1px solid var(--oc-admin-rule) !important;
+  border-radius: var(--oc-radius-sm) !important;
+  box-shadow: none !important;
+  min-height: 36px !important;
+  font-family: var(--oc-font) !important;
+  font-size: 14px;
+}
+
+.form-control:focus,
+.select2-container--default.select2-container--focus .select2-selection--multiple,
+.select2-container--default .select2-selection--single:focus {
+  border-color: var(--oc-accent) !important;
+  box-shadow: 0 0 0 2px rgba(0, 122, 255, 0.15) !important;
+}
+
+.form-control::placeholder {
+  color: var(--oc-disabled) !important;
+}
+
+/* Select2 dropdown */
+.select2-dropdown {
+  background: var(--oc-canvas-raised) !important;
+  border: 1px solid var(--oc-hairline) !important;
+  border-radius: var(--oc-radius-sm) !important;
+}
+
+.select2-results__option {
+  font-family: var(--oc-font) !important;
+  color: var(--oc-body) !important;
+}
+
+.select2-results__option--highlighted {
+  background: var(--oc-admin-hover) !important;
+  color: var(--oc-ink) !important;
+}
+
+.select2-selection__choice {
+  background: var(--oc-canvas-soft-2) !important;
+  border: 1px solid var(--oc-hairline) !important;
+  color: var(--oc-ink) !important;
+}
+
+/* ==========================================================================
+   Buttons (Admin)
+   ========================================================================== */
+
+.btn {
+  font-family: var(--oc-font) !important;
+  border-radius: var(--oc-radius-sm) !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  border-width: 1px !important;
+  box-shadow: none !important;
+  padding: 7px 16px !important;
+  line-height: 2 !important;
+  transition: background-color 0.1s ease, border-color 0.1s ease;
+}
+
+.btn-primary,
+.btn-success,
+.label-primary {
+  background: rgba(255, 255, 255, 0.055) !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+  color: var(--oc-ink) !important;
+}
+
+.btn-default,
+.btn-secondary {
+  background: var(--oc-admin-hover) !important;
+  border-color: var(--oc-admin-rule) !important;
+  color: var(--oc-ink) !important;
+}
+
+.btn-danger,
+.label-danger {
+  background: var(--oc-danger) !important;
+  border-color: var(--oc-danger) !important;
+  color: #fff !important;
+}
+
+.btn-warning,
+.label-warning {
+  background: rgba(255, 159, 10, 0.1) !important;
+  border-color: rgba(255, 159, 10, 0.22) !important;
+  color: var(--oc-warning) !important;
+}
+
+.btn-info,
+.label-info {
+  background: rgba(0, 122, 255, 0.1) !important;
+  border-color: rgba(0, 122, 255, 0.22) !important;
+  color: var(--oc-accent) !important;
+}
+
+.btn:hover,
+.btn:focus {
+  opacity: 1;
+}
+
+.btn-block {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  min-height: 38px !important;
+}
+
+/* Admin content buttons */
+.content .btn-block,
+.content a.btn-block,
+.content .box-tools .btn,
+.content .box-footer .btn,
+.content .btn-primary,
+.content a.btn-primary {
+  background: rgba(255, 255, 255, 0.045) !important;
+  border: 1px solid var(--oc-admin-rule) !important;
+  color: var(--oc-ink) !important;
+}
+
+.content .btn-block.btn-warning {
+  background: rgba(255, 159, 10, 0.08) !important;
+  border-color: rgba(255, 159, 10, 0.18) !important;
+  color: var(--oc-warning) !important;
+}
+
+.content .btn-block.btn-primary,
+.content .btn-block.btn-success {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border-color: var(--oc-admin-rule) !important;
+  color: var(--oc-ink) !important;
+}
+
+.content .btn-block:hover,
+.content .btn-block:focus,
+.content .box-tools .btn:hover,
+.content .box-tools .btn:focus,
+.content .btn-primary:hover,
+.content .btn-primary:focus {
+  background: rgba(255, 255, 255, 0.075) !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+  color: var(--oc-ink) !important;
+}
+
+.content .box-tools .input-group,
+.content .box-tools .input-group-btn,
+.content .box-tools input,
+.content .box-tools .form-control {
+  background: transparent !important;
+}
+
+/* ==========================================================================
+   Alerts (Admin)
+   ========================================================================== */
+
+.alert {
+  border-radius: var(--oc-radius-sm) !important;
+  border: 1px solid var(--oc-hairline) !important;
+  box-shadow: none !important;
+  font-family: var(--oc-font) !important;
+}
+
+.alert-success {
+  background: rgba(48, 209, 88, 0.1) !important;
+  color: var(--oc-ink) !important;
+}
+
+.alert-danger {
+  background: rgba(255, 69, 58, 0.1) !important;
+  color: var(--oc-ink) !important;
+}
+
+.alert-warning {
+  background: rgba(255, 159, 10, 0.1) !important;
+  color: var(--oc-ink) !important;
+}
+
+.alert-info {
+  background: rgba(0, 122, 255, 0.1) !important;
+  color: var(--oc-ink) !important;
+}
+
+/* ==========================================================================
+   Footer
+   ========================================================================== */
+
+.main-footer {
+  background: var(--oc-canvas) !important;
+  border-top: 1px solid var(--oc-admin-rule) !important;
+  color: var(--oc-muted) !important;
+  min-height: 26px !important;
+  padding: 7px 18px !important;
+  font-family: var(--oc-font) !important;
+  font-size: 12px !important;
+}
+
+.main-footer a {
+  color: var(--oc-accent) !important;
+}
+
+/* ==========================================================================
+   Modals
+   ========================================================================== */
+
+.modal-content {
+  box-shadow: var(--oc-shadow-md) !important;
+  border-radius: 0 !important;
+}
+
+.modal-header {
+  border-bottom: 1px solid var(--oc-admin-rule) !important;
+  font-family: var(--oc-font) !important;
+}
+
+.modal-footer {
+  border-top: 1px solid var(--oc-admin-rule) !important;
+}
+
+.modal-title {
+  font-family: var(--oc-font) !important;
+  font-weight: 500 !important;
+  letter-spacing: 0 !important;
+}
+
+/* ==========================================================================
+   Dropdowns (Admin)
+   ========================================================================== */
+
+.dropdown-menu {
+  font-family: var(--oc-font) !important;
+  background: var(--oc-canvas-raised) !important;
+  border: 1px solid var(--oc-admin-rule) !important;
+  border-radius: var(--oc-radius-sm) !important;
+  box-shadow: var(--oc-shadow-sm) !important;
+}
+
+.dropdown-menu > li > a {
+  color: var(--oc-body) !important;
+  font-family: var(--oc-font) !important;
+}
+
+.dropdown-menu > li > a:hover {
+  background: var(--oc-canvas-soft-2) !important;
+  color: var(--oc-ink) !important;
+}
+
+/* ==========================================================================
+   Tabs (Admin)
+   ========================================================================== */
+
+.nav-tabs-custom > .nav-tabs > li > a {
+  color: var(--oc-muted) !important;
+  font-family: var(--oc-font) !important;
+}
+
+.nav-tabs-custom > .nav-tabs > li.active {
+  border-top-color: var(--oc-accent) !important;
+}
+
+.nav-tabs-custom > .nav-tabs > li.active > a {
+  color: var(--oc-ink) !important;
+}
+
+/* ==========================================================================
+   Pagination (Admin)
+   ========================================================================== */
+
+.pagination > li > a,
+.pagination > li > span {
+  color: var(--oc-body) !important;
+  background: transparent !important;
+  border-color: var(--oc-admin-rule) !important;
+  font-family: var(--oc-font) !important;
+}
+
+.pagination > .active > a,
+.pagination > .active > span {
+  background: var(--oc-accent) !important;
+  border-color: var(--oc-accent) !important;
+  color: #fff !important;
+}
+
+.pagination > li > a:hover {
+  background: var(--oc-canvas-soft-2) !important;
+  color: var(--oc-ink) !important;
+}
+
+/* ==========================================================================
+   Labels & Badges (Admin)
+   ========================================================================== */
+
+.label,
+.badge {
+  font-family: var(--oc-font) !important;
+  border-radius: var(--oc-radius-sm) !important;
+  font-weight: 400 !important;
+  letter-spacing: 0 !important;
+}
+
+.label-default {
+  background: rgba(255, 255, 255, 0.055) !important;
+  color: var(--oc-body) !important;
+}
+
+.label-primary {
+  background: rgba(0, 122, 255, 0.15) !important;
+  color: var(--oc-accent) !important;
+}
+
+.label-success {
+  background: rgba(48, 209, 88, 0.15) !important;
+  color: var(--oc-success) !important;
+}
+
+.label-warning {
+  background: rgba(255, 159, 10, 0.15) !important;
+  color: var(--oc-warning) !important;
+}
+
+.label-danger {
+  background: rgba(255, 69, 58, 0.15) !important;
+  color: var(--oc-danger) !important;
+}
+
+/* ==========================================================================
+   Progress (Admin)
+   ========================================================================== */
+
+.progress {
+  border-radius: var(--oc-radius-full) !important;
+  background: var(--oc-canvas-soft-2) !important;
+}
+
+.progress-bar {
+  border-radius: var(--oc-radius-full) !important;
+}
+
+/* ==========================================================================
+   User Panel
+   ========================================================================== */
+
+.user-panel > .info,
+.user-panel > .info > a,
+.sidebar-form input[type='text'],
+.sidebar-form .btn {
+  color: var(--oc-body) !important;
+  font-family: var(--oc-font) !important;
+}

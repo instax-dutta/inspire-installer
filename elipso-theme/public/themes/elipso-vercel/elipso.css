@@ -1,0 +1,575 @@
+:root {
+  --elipso-canvas: #07090e;
+  --elipso-canvas-soft: #0b0f19;
+  --elipso-canvas-soft-2: #131926;
+  --elipso-canvas-raised: #0f1420;
+  --elipso-ink: #f3f4f6;
+  --elipso-body: #94a3b8;
+  --elipso-muted: #64748b;
+  --elipso-hairline: #1e293b;
+  --elipso-hairline-strong: #334155;
+  --elipso-primary: #ffffff;
+  --elipso-on-primary: #000000;
+  --elipso-link: #3b82f6;
+  --elipso-link-deep: #2563eb;
+  --elipso-cyan: #50e3c2;
+  --elipso-success: #10b981;
+  --elipso-error: #ef4444;
+  --elipso-error-soft: rgb(239 68 68 / 0.1);
+  --elipso-warning: #f5a623;
+  --elipso-shadow-card: 0 2px 4px rgb(0 0 0 / 0.18);
+  --elipso-shadow-panel: 0 4px 12px rgb(0 0 0 / 0.25);
+  --elipso-mesh-a: rgba(0, 124, 240, 0.08);  /* Develop Blue */
+  --elipso-mesh-b: rgba(121, 40, 202, 0.05); /* Preview Violet */
+  --elipso-mesh-c: rgba(255, 77, 77, 0.04);  /* Ship Coral */
+  color-scheme: dark;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--elipso-canvas);
+  color: var(--elipso-ink);
+  font-family: 'Geist', Inter, system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background:
+    radial-gradient(ellipse 80% 50% at 20% 0%, var(--elipso-mesh-a) 0%, transparent 65%),
+    radial-gradient(ellipse 50% 40% at 80% 15%, var(--elipso-mesh-b) 0%, transparent 55%),
+    radial-gradient(ellipse 35% 25% at 50% 30%, var(--elipso-mesh-c) 0%, transparent 45%),
+    linear-gradient(180deg, var(--elipso-canvas), var(--elipso-canvas-soft) 40rem) !important;
+  color: var(--elipso-body) !important;
+  font-family: 'Geist', Inter, system-ui, -apple-system, sans-serif !important;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--elipso-ink) !important;
+  font-weight: 600 !important;
+  letter-spacing: -0.04em !important;
+}
+
+p,
+span,
+label,
+li,
+td,
+th {
+  color: inherit;
+}
+
+strong,
+b {
+  font-weight: 600 !important;
+}
+
+a {
+  color: inherit !important;
+  text-decoration: none;
+}
+
+p a,
+td a,
+.prose a,
+.content a,
+.alert a,
+.box a:not(.btn):not(.label):not(.badge),
+.card a:not(.btn):not(.label):not(.badge) {
+  color: var(--elipso-link) !important;
+}
+
+p a:hover,
+td a:hover,
+.content a:hover,
+.box a:not(.btn):not(.label):not(.badge):hover {
+  color: var(--elipso-link-deep) !important;
+  text-decoration: underline;
+}
+
+::selection {
+  background: var(--elipso-primary);
+  color: var(--elipso-on-primary);
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--elipso-hairline-strong);
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+.elipso-mesh {
+  position: relative;
+}
+
+.elipso-canvas {
+  background:
+    radial-gradient(ellipse 80% 50% at 20% 0%, var(--elipso-mesh-a) 0%, transparent 65%),
+    radial-gradient(ellipse 50% 40% at 80% 15%, var(--elipso-mesh-b) 0%, transparent 55%),
+    radial-gradient(ellipse 35% 25% at 50% 30%, var(--elipso-mesh-c) 0%, transparent 45%),
+    linear-gradient(180deg, var(--elipso-canvas), var(--elipso-canvas-soft) 42rem) !important;
+}
+
+body.elipso-mesh form {
+  position: relative;
+  max-width: 540px;
+  margin: 0 auto;
+}
+
+body.elipso-mesh form > div,
+body.elipso-mesh form > .w-full,
+body.elipso-mesh form > [class*='bg-white'],
+body.elipso-mesh form > [class*='shadow'] {
+  display: block !important;
+  max-width: 540px !important;
+  margin: 0 auto !important;
+  padding: 36px !important;
+  background: var(--elipso-canvas-raised) !important;
+  border: 1px solid var(--elipso-hairline) !important;
+  border-radius: 12px !important;
+  box-shadow: var(--elipso-shadow-panel) !important;
+}
+
+body.elipso-mesh form > div > div:first-child {
+  display: none !important;
+}
+
+body.elipso-mesh form > div > div:last-child {
+  width: 100% !important;
+  max-width: none !important;
+  flex: 1 1 auto !important;
+  margin: 0 !important;
+}
+
+body.elipso-mesh h2 {
+  max-width: 540px;
+  margin: 0 auto 20px !important;
+  font-size: 36px !important;
+  line-height: 1.1 !important;
+  letter-spacing: -0.035em !important;
+  text-align: left !important;
+}
+
+body.elipso-mesh form label,
+body.elipso-mesh form [class*='label'],
+body.elipso-mesh form .input-help {
+  color: var(--elipso-muted) !important;
+  font-size: 12px !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+}
+
+body.elipso-mesh form .input-help.error {
+  color: var(--elipso-error) !important;
+}
+
+body.elipso-mesh form input,
+body.elipso-mesh form textarea,
+body.elipso-mesh form select {
+  height: 44px !important;
+  padding: 0 16px !important;
+  background: var(--elipso-canvas) !important;
+  border: 1px solid var(--elipso-hairline) !important;
+  border-radius: 8px !important;
+  color: var(--elipso-ink) !important;
+  box-shadow: none !important;
+}
+
+body.elipso-mesh form input:hover,
+body.elipso-mesh form textarea:hover,
+body.elipso-mesh form select:hover {
+  border-color: var(--elipso-hairline-strong) !important;
+}
+
+body.elipso-mesh form button[type='submit'],
+body.elipso-mesh form .btn-primary,
+body.elipso-mesh form [class*='bg-blue'] {
+  height: 44px !important;
+  margin-top: 10px !important;
+  background: #ffffff !important;
+  border: 1px solid #e2e2e2 !important;
+  border-radius: 8px !important;
+  color: #000000 !important;
+  box-shadow: none !important;
+}
+
+body.elipso-mesh form button[type='submit']:hover,
+body.elipso-mesh form .btn-primary:hover {
+  background: #e8e8e8 !important;
+  transform: none;
+}
+
+body.elipso-mesh form a[href*='password'],
+body.elipso-mesh form + p a,
+body.elipso-mesh > p a {
+  color: var(--elipso-muted) !important;
+  text-transform: none !important;
+  letter-spacing: 0 !important;
+}
+
+body.elipso-mesh form a[href*='password']:hover {
+  color: var(--elipso-body) !important;
+  text-decoration: none;
+}
+
+body.elipso-mesh > p {
+  max-width: 540px;
+  margin: 18px auto 0 !important;
+  text-align: left !important;
+}
+
+.bg-gray-900,
+.bg-neutral-900,
+.bg-slate-900,
+.bg-zinc-900,
+.bg-white,
+.bg-light {
+  background-color: var(--elipso-canvas-soft) !important;
+}
+
+.bg-gray-800,
+.bg-neutral-800,
+.bg-slate-800,
+.bg-zinc-800,
+.bg-black {
+  background-color: var(--elipso-canvas-soft) !important;
+}
+
+.bg-gray-700,
+.bg-neutral-700,
+.bg-slate-700,
+.bg-zinc-700,
+.bg-gray-600,
+.bg-neutral-600,
+.bg-gray-500,
+.bg-neutral-500,
+.bg-slate-500,
+.bg-zinc-500,
+.bg-gray-400,
+.bg-neutral-400,
+.bg-gray-300,
+.bg-neutral-300,
+.bg-gray-200,
+.bg-neutral-200 {
+  background-color: var(--elipso-canvas-soft-2) !important;
+}
+
+.text-gray-50,
+.text-gray-100,
+.text-neutral-100,
+.text-slate-100,
+.text-white {
+  color: var(--elipso-ink) !important;
+}
+
+.text-gray-200,
+.text-neutral-200,
+.text-slate-200,
+.text-gray-300,
+.text-neutral-300,
+.text-slate-300 {
+  color: var(--elipso-body) !important;
+}
+
+.text-gray-400,
+.text-neutral-400,
+.text-slate-400,
+.text-gray-500,
+.text-neutral-500 {
+  color: var(--elipso-muted) !important;
+}
+
+.border-gray-900,
+.border-gray-800,
+.border-gray-700,
+.border-gray-600,
+.border-gray-500,
+.border-gray-400,
+.border-gray-300,
+.border-gray-200,
+.border-neutral-700,
+.border-neutral-600,
+.border-neutral-500,
+.border-neutral-400,
+.border-neutral-300,
+.border-neutral-200,
+.border-slate-700,
+.border-zinc-700,
+.border,
+.border-top,
+.border-right,
+.border-bottom,
+.border-left {
+  border-color: var(--elipso-hairline) !important;
+}
+
+div[class*='NavigationBar'],
+div[class*='navigation-bar'],
+header,
+nav,
+div[class*='SubNavigation'],
+div[class*='sub-navigation'],
+div[class*='ServerSubNavigation'],
+div[class*='NavigationRouter'],
+div[class*='SubNavBar'] {
+  background: color-mix(in srgb, var(--elipso-canvas) 92%, transparent) !important;
+  border-color: var(--elipso-hairline) !important;
+}
+
+div[class*='StatBlock'],
+div[class*='ServerDetails'],
+div[class*='NetworkStats'],
+div[class*='GreyRowBox'],
+div[class*='TitledGreyBox'],
+.group > div[class*='bg-'],
+.grid > div[class*='bg-'] {
+  background: var(--elipso-canvas-raised) !important;
+  color: var(--elipso-ink) !important;
+  border: 1px solid var(--elipso-hairline) !important;
+  box-shadow: var(--elipso-shadow-card) !important;
+}
+
+body.elipso-canvas .grid > div[class*='StatBlock'],
+body.elipso-canvas .group > div[class*='StatBlock'] {
+  background: var(--elipso-canvas-raised) !important;
+  border-color: var(--elipso-hairline) !important;
+}
+
+div[class*='StatBlock'] {
+  position: relative;
+  overflow: hidden;
+  background: var(--elipso-canvas-raised) !important;
+}
+
+body.elipso-canvas canvas + *,
+body.elipso-canvas [class*='Chart'] {
+  color: var(--elipso-body) !important;
+}
+
+body.elipso-canvas [class*='Chart'] > div,
+body.elipso-canvas [class*='TitledGreyBox'] > div,
+body.elipso-canvas [class*='NetworkStats'] > div {
+  background: transparent !important;
+  border-color: var(--elipso-hairline) !important;
+}
+
+div[class*='StatBlock']::after {
+  content: '';
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 1px;
+  background: var(--elipso-hairline-strong);
+  opacity: 0.6;
+}
+
+div[class*='StatBlock'] .status-bar {
+  background: var(--elipso-hairline-strong) !important;
+  opacity: 0.6 !important;
+  width: 3px !important;
+  right: 0 !important;
+}
+
+div[class*='StatBlock'] p,
+div[class*='StatBlock'] span {
+  color: var(--elipso-body) !important;
+}
+
+div[class*='StatBlock'] p:first-child {
+  color: var(--elipso-ink) !important;
+  font-weight: 600 !important;
+}
+
+div[class*='StatBlock'] svg {
+  color: var(--elipso-muted) !important;
+}
+
+div[class*='StatBlock'] .icon {
+  background: var(--elipso-canvas-soft-2) !important;
+  border: 1px solid var(--elipso-hairline) !important;
+}
+
+div[class*='StatBlock'] [class*='text-xs'],
+div[class*='StatBlock'] [class*='text-sm'] {
+  color: var(--elipso-muted) !important;
+}
+
+div[class*='StatBlock'] [class*='text-red'] {
+  color: var(--elipso-error) !important;
+}
+
+a[class*='GreyRowBox'],
+div[class*='GreyRowBox'],
+div[class*='TitledGreyBox'] {
+  background: var(--elipso-canvas-raised) !important;
+  border-radius: 10px !important;
+}
+
+body.elipso-canvas a[class*='GreyRowBox'],
+body.elipso-canvas div[class*='GreyRowBox'],
+body.elipso-canvas div[class*='TitledGreyBox'] {
+  background: var(--elipso-canvas-raised) !important;
+  border-color: var(--elipso-hairline) !important;
+  color: var(--elipso-body) !important;
+}
+
+body.elipso-canvas a[class*='GreyRowBox']:hover,
+body.elipso-canvas div[class*='GreyRowBox']:hover {
+  background: var(--elipso-canvas-soft-2) !important;
+  border-color: var(--elipso-hairline-strong) !important;
+}
+
+body.elipso-canvas a[class*='GreyRowBox'] svg,
+body.elipso-canvas div[class*='GreyRowBox'] svg {
+  color: var(--elipso-muted) !important;
+}
+
+a[class*='GreyRowBox'] .icon,
+div[class*='GreyRowBox'] .icon {
+  background: var(--elipso-canvas-soft-2) !important;
+  border: 1px solid var(--elipso-hairline) !important;
+  color: var(--elipso-ink) !important;
+}
+
+a[class*='GreyRowBox']:hover,
+div[class*='GreyRowBox']:hover {
+  border-color: var(--elipso-hairline-strong) !important;
+}
+
+canvas {
+  background: transparent !important;
+}
+
+.xterm,
+.xterm-viewport,
+.xterm-screen,
+pre,
+code[class*='cm-'],
+.CodeMirror {
+  background: var(--elipso-canvas-soft) !important;
+  color: var(--elipso-ink) !important;
+  border-color: var(--elipso-hairline) !important;
+}
+
+.CodeMirror-gutters,
+.cm-s-default .CodeMirror-gutters,
+.cm-s-material .CodeMirror-gutters {
+  background: var(--elipso-canvas-soft-2) !important;
+  border-right-color: var(--elipso-hairline) !important;
+}
+
+input,
+textarea,
+select,
+.form-control {
+  background: var(--elipso-canvas-raised) !important;
+  color: var(--elipso-ink) !important;
+  border-color: var(--elipso-hairline) !important;
+}
+
+button:not(.elipso-theme-toggle),
+.btn,
+.nav-tabs .nav-link,
+.page-link,
+.dropdown-item {
+  transition: background-color 140ms ease, border-color 140ms ease, color 140ms ease, box-shadow 140ms ease, transform 140ms ease;
+}
+
+input:focus,
+textarea:focus,
+select:focus,
+.form-control:focus {
+  border-color: var(--elipso-hairline-strong) !important;
+  box-shadow: 0 0 0 2px rgb(255 255 255 / 0.08) !important;
+}
+
+button,
+.btn {
+  font-family: 'Geist', Inter, system-ui, sans-serif !important;
+}
+
+/* Pterodactyl file manager CSS-module rows.
+   These classes are injected by the files chunk after the base stylesheet,
+   so this override must be both exact and important. */
+body.elipso-canvas .style-module_HHpjDvv7 {
+  background: var(--elipso-canvas-raised) !important;
+  background-color: var(--elipso-canvas-raised) !important;
+  border: 1px solid var(--elipso-hairline) !important;
+  border-radius: 8px !important;
+  color: var(--elipso-body) !important;
+  margin-bottom: 4px !important;
+}
+
+body.elipso-canvas .style-module_HHpjDvv7 > .style-module_le7taa7N,
+body.elipso-canvas .style-module_HHpjDvv7 > .style-module_le7taa7N > * {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+body.elipso-canvas .style-module_HHpjDvv7 .style-module_le7taa7N,
+body.elipso-canvas .style-module_HHpjDvv7 .style-module_le7taa7N span,
+body.elipso-canvas .style-module_HHpjDvv7 .style-module_le7taa7N a {
+  color: var(--elipso-body) !important;
+}
+
+/* File row checked/selected state */
+body.elipso-canvas .style-module_HHpjDvv7:has(input[type="checkbox"]:checked) {
+  background: color-mix(in srgb, var(--elipso-primary) 6%, var(--elipso-canvas-raised)) !important;
+  background-color: color-mix(in srgb, var(--elipso-primary) 6%, var(--elipso-canvas-raised)) !important;
+  border-color: color-mix(in srgb, var(--elipso-primary) 30%, var(--elipso-hairline)) !important;
+}
+
+body.elipso-canvas .style-module_HHpjDvv7:has(input[type="checkbox"]:checked) .style-module_le7taa7N,
+body.elipso-canvas .style-module_HHpjDvv7:has(input[type="checkbox"]:checked) .style-module_le7taa7N span,
+body.elipso-canvas .style-module_HHpjDvv7:has(input[type="checkbox"]:checked) .style-module_le7taa7N a {
+  color: var(--elipso-ink) !important;
+}
+
+/* File row hover — avoid hover state overlaying checked state */
+body.elipso-canvas .style-module_HHpjDvv7:hover:not(:has(input[type="checkbox"]:checked)) {
+  background: var(--elipso-canvas-soft-2) !important;
+  background-color: var(--elipso-canvas-soft-2) !important;
+  border-color: var(--elipso-hairline-strong) !important;
+  color: var(--elipso-ink) !important;
+}
+
+/* File manager checkbox — unchecked state */
+body.elipso-canvas .style-module_HHpjDvv7 input[type="checkbox"],
+body.elipso-canvas .style-module_fqm1ZNax input[type="checkbox"] {
+  border-color: var(--elipso-hairline-strong) !important;
+  background-color: transparent !important;
+}
+
+body.elipso-canvas .style-module_HHpjDvv7 input[type="checkbox"]:hover,
+body.elipso-canvas .style-module_fqm1ZNax input[type="checkbox"]:hover {
+  border-color: var(--elipso-primary) !important;
+}
+
+/* File manager checkbox — checked state */
+body.elipso-canvas .style-module_HHpjDvv7 input[type="checkbox"]:checked,
+body.elipso-canvas .style-module_fqm1ZNax input[type="checkbox"]:checked {
+  background-color: var(--elipso-link) !important;
+  border-color: var(--elipso-link) !important;
+  color: var(--elipso-link) !important;
+}

@@ -1,0 +1,559 @@
+/* ============================================================
+   ELIPSO — AdminLTE 2 / Pterodactyl admin overrides
+   Direction: quiet operations console
+   ============================================================ */
+
+:root {
+  --elipso-admin-sidebar: #07090e;
+  --elipso-admin-topbar: rgb(7 9 14 / 0.94);
+  --elipso-admin-active: rgb(59 130 246 / 0.08);
+  --elipso-admin-hover: rgb(59 130 246 / 0.04);
+  --elipso-admin-rule: rgb(255 255 255 / 0.05);
+  --elipso-admin-rule-soft: rgb(255 255 255 / 0.03);
+  --elipso-admin-surface: #07090e;
+  --elipso-admin-surface-raised: #0d111a;
+}
+
+body,
+.wrapper,
+.content-wrapper,
+.right-side {
+  background:
+    radial-gradient(ellipse 80% 40% at 30% 0%, rgb(59 130 246 / 0.03), transparent 60%),
+    var(--elipso-canvas) !important;
+  color: var(--elipso-body) !important;
+}
+
+body,
+body * {
+  text-shadow: none !important;
+}
+
+.skin-blue .wrapper,
+.skin-blue .main-sidebar,
+.skin-blue .left-side {
+  background: var(--elipso-admin-sidebar) !important;
+}
+
+.skin-blue .main-header .logo,
+.skin-blue .main-header .navbar,
+.main-header .logo,
+.main-header .navbar,
+.navbar-static-top {
+  background: var(--elipso-admin-topbar) !important;
+  color: var(--elipso-ink) !important;
+  border-bottom: 1px solid var(--elipso-admin-rule) !important;
+  box-shadow: none !important;
+  min-height: 56px !important;
+}
+
+.skin-blue .main-header .logo {
+  border-right: 1px solid var(--elipso-admin-rule) !important;
+  font-weight: 600 !important;
+  letter-spacing: -0.035em !important;
+  line-height: 56px !important;
+  height: 56px !important;
+  font-size: 20px !important;
+  text-align: left !important;
+  padding-left: 28px !important;
+}
+
+.skin-blue .main-header .logo:hover,
+.skin-blue .main-header .navbar .sidebar-toggle:hover,
+.skin-blue .main-header .navbar .nav > li > a:hover,
+.skin-blue .main-header .navbar .nav > li > a:focus {
+  background: var(--elipso-admin-hover) !important;
+  color: var(--elipso-ink) !important;
+}
+
+.main-header .navbar .sidebar-toggle {
+  height: 56px !important;
+  padding: 18px 17px !important;
+  color: var(--elipso-body) !important;
+}
+
+.main-header .navbar .nav > li > a {
+  height: 56px !important;
+  padding-top: 18px !important;
+  padding-bottom: 18px !important;
+  color: var(--elipso-body) !important;
+}
+
+.navbar-nav > .user-menu > a {
+  display: flex !important;
+  align-items: center !important;
+  gap: 9px !important;
+}
+
+.navbar-nav > .user-menu .user-image {
+  width: 24px !important;
+  height: 24px !important;
+  margin-top: 0 !important;
+  border: 1px solid var(--elipso-admin-rule) !important;
+}
+
+.skin-blue .main-sidebar {
+  border-right: 1px solid var(--elipso-admin-rule) !important;
+  padding-top: 56px !important;
+}
+
+.skin-blue .sidebar a,
+.skin-blue .sidebar-menu > li > a {
+  color: var(--elipso-body) !important;
+}
+
+.sidebar {
+  padding: 10px 10px 18px !important;
+}
+
+.skin-blue .sidebar-menu > li.header {
+  background: transparent !important;
+  color: var(--elipso-muted) !important;
+  font-family: 'Geist Mono', ui-monospace, monospace !important;
+  font-size: 11px !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+  padding: 17px 9px 8px !important;
+}
+
+.skin-blue .sidebar-menu > li > a {
+  position: relative !important;
+  border-left: 0 !important;
+  margin: 1px 0 !important;
+  padding: 10px 12px 10px 18px !important;
+  border-radius: 0 !important;
+  font-weight: 500 !important;
+  letter-spacing: 0 !important;
+}
+
+.skin-blue .sidebar-menu > li:hover > a,
+.skin-blue .sidebar-menu > li.active > a,
+.skin-blue .sidebar-menu > li.menu-open > a {
+  background: transparent !important;
+  color: var(--elipso-ink) !important;
+}
+
+.skin-blue .sidebar-menu > li > a::before {
+  content: '' !important;
+  position: absolute !important;
+  left: 0 !important;
+  top: 9px !important;
+  bottom: 9px !important;
+  width: 2px !important;
+  border-radius: 999px !important;
+  background: transparent !important;
+}
+
+.skin-blue .sidebar-menu > li:hover > a::before,
+.skin-blue .sidebar-menu > li.active > a::before,
+.skin-blue .sidebar-menu > li.menu-open > a::before {
+  background: var(--elipso-link) !important;
+}
+
+.skin-blue .sidebar-menu > li.active > a {
+  background: transparent !important;
+}
+
+.skin-blue .sidebar-menu > li > a > i {
+  width: 18px !important;
+  margin-right: 8px !important;
+  color: var(--elipso-muted) !important;
+  text-align: center !important;
+}
+
+.skin-blue .sidebar-menu > li.active > a > i,
+.skin-blue .sidebar-menu > li:hover > a > i {
+  color: var(--elipso-ink) !important;
+}
+
+.skin-blue .sidebar-menu > li > .treeview-menu {
+  background: transparent !important;
+}
+
+.skin-blue .treeview-menu > li > a,
+.skin-blue .treeview-menu > li.active > a,
+.skin-blue .treeview-menu > li > a:hover {
+  color: var(--elipso-body) !important;
+}
+
+.content-header > h1,
+.content-header > h1 > small,
+.box-title,
+.modal-title,
+.main-footer,
+.main-footer a,
+.small-box h3,
+.small-box p {
+  color: var(--elipso-ink) !important;
+}
+
+.content-wrapper {
+  min-height: calc(100vh - 56px) !important;
+}
+
+.content-header {
+  padding: 18px 28px 8px !important;
+}
+
+.content-header > h1 {
+  font-size: 23px !important;
+  line-height: 1.15 !important;
+  font-weight: 600 !important;
+  letter-spacing: -0.035em !important;
+}
+
+.content-header > h1 > small {
+  display: inline-block !important;
+  margin-left: 4px !important;
+  font-size: 13px !important;
+  letter-spacing: 0 !important;
+  font-weight: 400 !important;
+}
+
+.content-header > .breadcrumb {
+  top: 20px !important;
+  right: 28px !important;
+  font-size: 12px !important;
+  color: var(--elipso-muted) !important;
+}
+
+.content {
+  padding: 8px 28px 28px !important;
+}
+
+.content-header > h1 > small,
+.main-footer,
+.small.text-gray,
+.text-muted,
+.help-block {
+  color: var(--elipso-muted) !important;
+}
+
+.box,
+.small-box,
+.info-box,
+.callout,
+.nav-tabs-custom,
+.modal-content,
+.well {
+  background: #0b0f19 !important;
+  color: var(--elipso-body) !important;
+  border: 1px solid var(--elipso-admin-rule) !important;
+  border-radius: 8px !important;
+  box-shadow: 0 2px 4px rgb(0 0 0 / 0.12) !important;
+}
+
+.box-header {
+  padding: 16px 20px 14px !important;
+  background: transparent !important;
+}
+
+.box-body {
+  padding: 20px !important;
+}
+
+.box-header,
+.box-footer,
+.nav-tabs-custom > .nav-tabs,
+.modal-header,
+.modal-footer {
+  background: transparent !important;
+  border-color: var(--elipso-admin-rule-soft) !important;
+}
+
+.box.box-primary,
+.box.box-info,
+.box.box-success,
+.box.box-warning,
+.box.box-danger {
+  border-top-color: var(--elipso-admin-rule) !important;
+}
+
+.box-title {
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  letter-spacing: -0.02em !important;
+  color: var(--elipso-ink) !important;
+}
+
+.table,
+.table > tbody > tr > td,
+.table > tbody > tr > th,
+.table > tfoot > tr > td,
+.table > thead > tr > th {
+  color: var(--elipso-body) !important;
+  border-color: var(--elipso-admin-rule-soft) !important;
+  background: transparent !important;
+}
+
+.table > thead > tr > th {
+  color: var(--elipso-muted) !important;
+  font-family: 'Geist Mono', ui-monospace, monospace !important;
+  font-size: 11px !important;
+  font-weight: 400 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.08em !important;
+}
+
+.table > tbody > tr > td {
+  vertical-align: middle !important;
+}
+
+.table-hover > tbody > tr:hover,
+.table-striped > tbody > tr:nth-of-type(odd) {
+  background: var(--elipso-admin-hover) !important;
+}
+
+.content code,
+.content kbd,
+.content pre,
+.content samp,
+.content td code,
+.content td kbd,
+.content td pre,
+.content td samp,
+.content .label-default,
+.content .badge {
+  background: rgb(255 255 255 / 0.045) !important;
+  border: 1px solid var(--elipso-admin-rule) !important;
+  border-radius: 5px !important;
+  color: var(--elipso-body) !important;
+  font-family: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, monospace !important;
+  font-size: 12px !important;
+  font-weight: 400 !important;
+  padding: 2px 5px !important;
+}
+
+.box .table,
+.box .table-bordered,
+.box .table-responsive,
+.box .dataTables_wrapper {
+  background: transparent !important;
+}
+
+.small-box {
+  position: relative;
+  overflow: hidden;
+  background: var(--elipso-admin-surface-raised) !important;
+}
+
+.small-box::after {
+  content: '';
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 1px;
+  background: var(--elipso-admin-rule);
+  opacity: 1;
+}
+
+.info-box {
+  background: var(--elipso-admin-surface-raised) !important;
+}
+
+.form-control,
+.select2-container--default .select2-selection--single,
+.select2-container--default .select2-selection--multiple {
+  background: var(--elipso-canvas) !important;
+  color: var(--elipso-ink) !important;
+  border: 1px solid var(--elipso-admin-rule) !important;
+  border-radius: 6px !important;
+  box-shadow: none !important;
+  min-height: 36px !important;
+}
+
+.form-control:focus,
+.select2-container--default.select2-container--focus .select2-selection--multiple,
+.select2-container--default .select2-selection--single:focus {
+  border-color: var(--elipso-hairline-strong, #333333) !important;
+  box-shadow: 0 0 0 2px rgb(255 255 255 / 0.08) !important;
+}
+
+.form-control::placeholder {
+  color: var(--elipso-muted) !important;
+}
+
+.btn {
+  border-radius: 8px !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  border-width: 1px !important;
+  box-shadow: none !important;
+  padding: 7px 12px !important;
+  line-height: 1.35 !important;
+}
+
+.btn-primary,
+.btn-success,
+.label-primary {
+  background: rgb(255 255 255 / 0.055) !important;
+  border-color: rgb(255 255 255 / 0.12) !important;
+  color: var(--elipso-ink) !important;
+}
+
+.btn-default,
+.btn-secondary {
+  background: var(--elipso-admin-hover) !important;
+  border-color: var(--elipso-admin-rule) !important;
+  color: var(--elipso-ink) !important;
+}
+
+.btn-danger,
+.label-danger {
+  background: var(--elipso-error) !important;
+  border-color: var(--elipso-error) !important;
+  color: #fff !important;
+}
+
+.btn-warning,
+.label-warning {
+  background: rgb(246 193 119 / 0.1) !important;
+  border-color: rgb(246 193 119 / 0.22) !important;
+  color: var(--elipso-warning) !important;
+}
+
+.btn:hover,
+.btn:focus {
+  opacity: 0.9;
+  transform: none;
+}
+
+.btn-block {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  min-height: 38px !important;
+  border-radius: 10px !important;
+}
+
+.content .btn-block,
+.content a.btn-block,
+.content .box-tools .btn,
+.content .box-footer .btn,
+.content .btn-primary,
+.content a.btn-primary {
+  background: rgb(255 255 255 / 0.045) !important;
+  border: 1px solid var(--elipso-admin-rule) !important;
+  color: var(--elipso-ink) !important;
+}
+
+.content .btn-block.btn-warning {
+  background: rgb(246 193 119 / 0.08) !important;
+  border-color: rgb(246 193 119 / 0.18) !important;
+  color: #ffd28e !important;
+}
+
+.content .btn-block.btn-primary,
+.content .btn-block.btn-success {
+  background: rgb(255 255 255 / 0.05) !important;
+  border-color: var(--elipso-admin-rule) !important;
+  color: var(--elipso-ink) !important;
+}
+
+.content .btn-block:hover,
+.content .btn-block:focus,
+.content .box-tools .btn:hover,
+.content .box-tools .btn:focus,
+.content .btn-primary:hover,
+.content .btn-primary:focus {
+  background: rgb(255 255 255 / 0.075) !important;
+  border-color: rgb(255 255 255 / 0.12) !important;
+  color: var(--elipso-ink) !important;
+}
+
+.content .box-tools .input-group,
+.content .box-tools .input-group-btn,
+.content .box-tools input,
+.content .box-tools .form-control {
+  background: transparent !important;
+}
+
+.alert {
+  border-radius: 8px !important;
+  border: 1px solid var(--elipso-admin-rule) !important;
+  box-shadow: none !important;
+}
+
+.alert-success {
+  background: color-mix(in srgb, var(--elipso-success) 14%, var(--elipso-canvas)) !important;
+  color: var(--elipso-ink) !important;
+}
+
+.alert-danger {
+  background: color-mix(in srgb, var(--elipso-error) 12%, var(--elipso-canvas)) !important;
+  color: var(--elipso-ink) !important;
+}
+
+.alert-warning {
+  background: color-mix(in srgb, var(--elipso-warning) 14%, var(--elipso-canvas)) !important;
+  color: var(--elipso-ink) !important;
+}
+
+.main-footer {
+  background: var(--elipso-canvas) !important;
+  border-top: 1px solid var(--elipso-admin-rule) !important;
+  color: var(--elipso-muted) !important;
+  min-height: 26px !important;
+  padding: 7px 18px !important;
+  font-size: 12px !important;
+}
+
+.main-footer a {
+  color: var(--elipso-link) !important;
+}
+
+.modal-content {
+  box-shadow: var(--elipso-shadow-panel) !important;
+}
+
+.dropdown-menu {
+  background: var(--elipso-canvas-raised) !important;
+  border: 1px solid var(--elipso-admin-rule) !important;
+  border-radius: 7px !important;
+  box-shadow: var(--elipso-shadow-panel) !important;
+}
+
+.dropdown-menu > li > a {
+  color: var(--elipso-body) !important;
+}
+
+.dropdown-menu > li > a:hover {
+  background: var(--elipso-canvas-soft-2) !important;
+  color: var(--elipso-ink) !important;
+}
+
+.nav-tabs-custom > .nav-tabs > li > a,
+.pagination > li > a,
+.pagination > li > span {
+  color: var(--elipso-body) !important;
+}
+
+.nav-tabs-custom > .nav-tabs > li.active {
+  border-top-color: var(--elipso-primary) !important;
+}
+
+.pagination > .active > a,
+.pagination > .active > span {
+  background: #edf1f7 !important;
+  border-color: #edf1f7 !important;
+  color: #0b1017 !important;
+}
+
+.user-panel > .info,
+.user-panel > .info > a,
+.sidebar-form input[type='text'],
+.sidebar-form .btn {
+  color: var(--elipso-body) !important;
+}
+
+.label,
+.badge {
+  border-radius: 5px !important;
+  font-weight: 500 !important;
+  letter-spacing: 0 !important;
+}
+
+.progress,
+.progress-bar {
+  border-radius: 999px !important;
+}

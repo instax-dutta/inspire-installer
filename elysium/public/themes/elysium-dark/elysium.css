@@ -1,0 +1,1060 @@
+/* ==========================================================================
+   Elysium — Client Panel Theme
+   Inspired by OpenCode's terminal-native design language
+   Font: JetBrains Mono (Berkeley Mono substitute)
+   ========================================================================== */
+
+:root {
+  /* --- Core Palette (inverted from the OpenCode light system → dark) --- */
+  --oc-canvas:        #121212;
+  --oc-canvas-soft:   #181717;
+  --oc-canvas-soft-2: #1f1e1e;
+  --oc-canvas-raised: #1c1b1b;
+  --oc-ink:           #e8e6e3;
+  --oc-body:          #a8a6a3;
+  --oc-muted:         #7a7878;
+  --oc-disabled:      #5a5858;
+  --oc-hairline:      rgba(255, 255, 255, 0.08);
+  --oc-hairline-md:   rgba(255, 255, 255, 0.12);
+  --oc-hairline-lg:   rgba(255, 255, 255, 0.18);
+
+  /* --- Semantic (Apple HIG ramp — from DESIGN.md) --- */
+  --oc-accent:        #007aff;
+  --oc-accent-hover:  #0a84ff;
+  --oc-accent-active: #0056b3;
+  --oc-success:       #30d158;
+  --oc-success-hover: #34c759;
+  --oc-warning:       #ff9f0a;
+  --oc-warning-hover: #ffb340;
+  --oc-danger:        #ff453a;
+  --oc-danger-hover:  #ff6961;
+  --oc-info:          #5a9cff;
+
+  /* --- Typography --- */
+  --oc-font: 'JetBrains Mono', 'IBM Plex Mono', 'ui-monospace', 'SFMono-Regular',
+    'Menlo', 'Monaco', 'Consolas', 'Liberation Mono', 'Courier New', monospace;
+  --oc-font-size-xs: 11px;
+  --oc-font-size-sm: 12px;
+  --oc-font-size:    14px;
+  --oc-font-size-lg: 16px;
+  --oc-font-size-xl: 20px;
+  --oc-font-size-2xl: 28px;
+
+  /* --- Radii (OpenCode style: 4px interactive, 0px containers) --- */
+  --oc-radius-sm:  4px;
+  --oc-radius:     6px;
+  --oc-radius-lg:  8px;
+  --oc-radius-full: 9999px;
+
+  /* --- Shadows (none — flat, terminal-native design) --- */
+  --oc-shadow-sm:  none;
+  --oc-shadow-md:  none;
+  --oc-shadow-lg:  none;
+
+  color-scheme: dark;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--oc-canvas);
+  color: var(--oc-ink);
+  font-family: var(--oc-font);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background:
+    radial-gradient(ellipse 75% 48% at 12% 8%, rgba(0, 122, 255, 0.10) 0%, transparent 60%),
+    radial-gradient(ellipse 48% 36% at 86% 16%, rgba(255, 69, 58, 0.06) 0%, transparent 62%),
+    linear-gradient(180deg, var(--oc-canvas), var(--oc-canvas-soft) 36rem) !important;
+  color: var(--oc-body) !important;
+  font-family: var(--oc-font) !important;
+  line-height: 1.5;
+  letter-spacing: 0;
+}
+
+/* ==========================================================================
+   Typography — 100% monospaced, no proportional faces
+   ========================================================================== */
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--oc-font) !important;
+  color: var(--oc-ink) !important;
+  font-weight: 700 !important;
+  letter-spacing: 0 !important;
+  line-height: 1.5;
+}
+
+h1 { font-size: var(--oc-font-size-2xl); }
+h2 { font-size: var(--oc-font-size-xl); }
+h3 { font-size: var(--oc-font-size-lg); }
+h4 { font-size: var(--oc-font-size); }
+
+p, span, label, li, td, th, div, input, textarea, select, button {
+  font-family: var(--oc-font);
+  letter-spacing: 0;
+}
+
+strong, b {
+  font-weight: 500 !important;
+}
+
+/* ==========================================================================
+   Links — ink-color links with underline, not default blue
+   ========================================================================== */
+
+a {
+  color: inherit !important;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+p a,
+td a,
+.content a,
+.alert a,
+.box a:not(.btn):not(.label):not(.badge),
+.card a:not(.btn):not(.label):not(.badge) {
+  color: var(--oc-ink) !important;
+}
+
+p a:hover,
+td a:hover,
+.content a:hover,
+.box a:not(.btn):not(.label):not(.badge):hover {
+  color: var(--oc-body) !important;
+}
+
+/* ==========================================================================
+   Selection
+   ========================================================================== */
+
+::selection {
+  background: rgba(0, 122, 255, 0.25);
+  color: var(--oc-ink);
+}
+
+/* ==========================================================================
+   Scrollbar
+   ========================================================================== */
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--oc-hairline-md);
+  border-radius: var(--oc-radius-full);
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--oc-hairline-lg);
+}
+
+/* ==========================================================================
+   Auth Page (elysium-mesh) — Industrial Terminal
+   Clean, high-craft monospaced login. No gimmicks.
+   The form is a tool, not a decoration.
+   ========================================================================== */
+
+@keyframes elysium-fade-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.elysium-mesh {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  background:
+    radial-gradient(ellipse 100% 60% at 0% 50%, rgba(0, 122, 255, 0.03) 0%, transparent 70%),
+    var(--oc-canvas) !important;
+}
+
+.elysium-mesh::before {
+  content: 'Elysium';
+  position: fixed;
+  top: 32px;
+  left: 12%;
+  color: var(--oc-ink);
+  font-family: var(--oc-font);
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1;
+  pointer-events: none;
+}
+
+.elysium-mesh::after {
+  content: '[auth] [ready]';
+  position: fixed;
+  right: 32px;
+  bottom: 28px;
+  color: var(--oc-disabled);
+  font-family: var(--oc-font);
+  font-size: 12px;
+  line-height: 1;
+  pointer-events: none;
+}
+
+/* Panel name — quiet, like a tmux status bar */
+.elysium-mesh h2 {
+  margin: 0 0 32px 0 !important;
+  font-family: var(--oc-font) !important;
+  font-size: 13px !important;
+  line-height: 1 !important;
+  letter-spacing: 0 !important;
+  text-align: left !important;
+  color: var(--oc-muted) !important;
+  font-weight: 400 !important;
+  text-transform: none !important;
+}
+
+.elysium-mesh h2::before {
+  content: '> ';
+  color: var(--oc-accent);
+}
+
+/* Form — full width, no container chrome */
+.elysium-mesh form {
+  position: relative;
+  max-width: 380px;
+  margin: 0;
+  margin-left: 12%;
+}
+
+.elysium-mesh form > div,
+.elysium-mesh form > .w-full,
+.elysium-mesh form > [class*='bg-white'],
+.elysium-mesh form > [class*='shadow'] {
+  display: block !important;
+  width: auto !important;
+  max-width: 380px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+.elysium-mesh form > div > div:first-child {
+  display: none !important;
+}
+
+.elysium-mesh form > div > div:last-child {
+  width: 100% !important;
+  max-width: none !important;
+  flex: 1 1 auto !important;
+  margin: 0 !important;
+}
+
+/* Form body */
+.elysium-mesh form > * {
+  display: block !important;
+  padding: 0 !important;
+  background: transparent !important;
+  border: none !important;
+}
+
+/* Labels as terminal prompts */
+.elysium-mesh form label,
+.elysium-mesh form [class*='label'],
+.elysium-mesh form .input-help {
+  display: block !important;
+  color: var(--oc-muted) !important;
+  font-size: 13px !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+  margin-bottom: 4px !important;
+  font-weight: 400 !important;
+}
+
+.elysium-mesh form label::before {
+  content: '> ';
+  color: var(--oc-accent);
+}
+
+.elysium-mesh form .input-help.error {
+  color: var(--oc-danger) !important;
+}
+
+.elysium-mesh form .input-help.error::before {
+  content: '! ';
+  color: var(--oc-danger);
+}
+
+/* Inputs — minimal, bottom-border only */
+.elysium-mesh form input,
+.elysium-mesh form textarea,
+.elysium-mesh form select {
+  height: 40px !important;
+  padding: 0 !important;
+  margin-bottom: 20px !important;
+  background: transparent !important;
+  border: none !important;
+  border-bottom: 1px solid var(--oc-hairline-md) !important;
+  border-radius: 0 !important;
+  color: var(--oc-ink) !important;
+  font-family: var(--oc-font) !important;
+  font-size: var(--oc-font-size);
+  width: 100%;
+  outline: none;
+  box-shadow: none !important;
+  transition: border-color 0.15s ease;
+}
+
+.elysium-mesh form input:hover {
+  border-bottom-color: var(--oc-hairline-lg) !important;
+}
+
+.elysium-mesh form input:focus {
+  border-bottom-color: var(--oc-accent) !important;
+  box-shadow: none !important;
+}
+
+/* Submit button */
+.elysium-mesh form button[type='submit'],
+.elysium-mesh form .btn-primary,
+.elysium-mesh form [class*='bg-blue'] {
+  height: 40px !important;
+  margin-top: 8px !important;
+  padding: 0 20px !important;
+  background: var(--oc-ink) !important;
+  border: 1px solid var(--oc-ink) !important;
+  border-radius: 4px !important;
+  color: var(--oc-canvas) !important;
+  font-family: var(--oc-font) !important;
+  font-weight: 500;
+  font-size: var(--oc-font-size);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  display: inline-block;
+  width: auto;
+}
+
+.elysium-mesh form button[type='submit']:hover {
+  background: transparent !important;
+  color: var(--oc-ink) !important;
+}
+
+/* Password link */
+.elysium-mesh form a[href*='password'],
+.elysium-mesh form + p a,
+.elysium-mesh > p a {
+  display: inline-block !important;
+  margin-top: 16px !important;
+  color: var(--oc-muted) !important;
+  text-decoration: none;
+  font-size: 12px !important;
+}
+
+.elysium-mesh form a[href*='password']:hover {
+  color: var(--oc-body) !important;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* Footer links (register, etc) */
+.elysium-mesh > p {
+  margin: 20px 0 0 12% !important;
+  color: var(--oc-disabled) !important;
+  font-size: 12px;
+  max-width: 380px;
+}
+
+.elysium-mesh > p a {
+  color: var(--oc-muted) !important;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.elysium-mesh > p a:hover {
+  color: var(--oc-ink) !important;
+}
+
+/* Blinking cursor — subtle terminal accent */
+@keyframes elysium-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.elysium-mesh .elysium-cursor {
+  display: inline-block;
+  width: 7px;
+  height: 15px;
+  background: var(--oc-muted);
+  margin-left: 4px;
+  vertical-align: middle;
+  animation: elysium-blink 1s step-end infinite;
+}
+
+/* ==========================================================================
+   Client Panel (elysium-canvas)
+   ========================================================================== */
+
+.elysium-canvas {
+  background:
+    radial-gradient(ellipse 75% 48% at 12% 8%, rgba(0, 122, 255, 0.08) 0%, transparent 60%),
+    linear-gradient(180deg, var(--oc-canvas), var(--oc-canvas-soft) 42rem) !important;
+}
+
+/* --- Background overrides for Tailwind utility classes --- */
+
+.bg-gray-900,
+.bg-neutral-900,
+.bg-slate-900,
+.bg-zinc-900,
+.bg-white,
+.bg-light {
+  background-color: var(--oc-canvas-soft) !important;
+}
+
+.bg-gray-800,
+.bg-neutral-800,
+.bg-slate-800,
+.bg-zinc-800,
+.bg-black {
+  background-color: var(--oc-canvas-soft) !important;
+}
+
+.bg-gray-700,
+.bg-neutral-700,
+.bg-slate-700,
+.bg-zinc-700,
+.bg-gray-600,
+.bg-neutral-600,
+.bg-gray-500,
+.bg-neutral-500,
+.bg-slate-500,
+.bg-zinc-500,
+.bg-gray-400,
+.bg-neutral-400,
+.bg-gray-300,
+.bg-neutral-300,
+.bg-gray-200,
+.bg-neutral-200 {
+  background-color: var(--oc-canvas-soft-2) !important;
+}
+
+/* --- Text color overrides --- */
+
+.text-gray-50,
+.text-gray-100,
+.text-neutral-100,
+.text-slate-100,
+.text-white {
+  color: var(--oc-ink) !important;
+}
+
+.text-gray-200,
+.text-neutral-200,
+.text-slate-200,
+.text-gray-300,
+.text-neutral-300,
+.text-slate-300 {
+  color: var(--oc-body) !important;
+}
+
+.text-gray-400,
+.text-neutral-400,
+.text-slate-400,
+.text-gray-500,
+.text-neutral-500 {
+  color: var(--oc-muted) !important;
+}
+
+/* --- Border overrides --- */
+
+.border-gray-900,
+.border-gray-800,
+.border-gray-700,
+.border-gray-600,
+.border-gray-500,
+.border-gray-400,
+.border-gray-300,
+.border-gray-200,
+.border-neutral-700,
+.border-neutral-600,
+.border-neutral-500,
+.border-neutral-400,
+.border-neutral-300,
+.border-neutral-200,
+.border-slate-700,
+.border-zinc-700,
+.border,
+.border-top,
+.border-right,
+.border-bottom,
+.border-left {
+  border-color: var(--oc-hairline) !important;
+}
+
+/* ==========================================================================
+   Navigation Bar (React client)
+   ========================================================================== */
+
+div[class*='NavigationBar'],
+div[class*='navigation-bar'],
+header,
+nav,
+div[class*='SubNavigation'],
+div[class*='sub-navigation'],
+div[class*='ServerSubNavigation'],
+div[class*='NavigationRouter'],
+div[class*='SubNavBar'] {
+  background: color-mix(in srgb, var(--oc-canvas) 92%, transparent) !important;
+  border-color: var(--oc-hairline) !important;
+}
+
+/* ==========================================================================
+   Stat Blocks
+   ========================================================================== */
+
+div[class*='StatBlock'],
+div[class*='ServerDetails'],
+div[class*='NetworkStats'],
+div[class*='GreyRowBox'],
+div[class*='TitledGreyBox'],
+.group > div[class*='bg-'],
+.grid > div[class*='bg-'] {
+  background: var(--oc-canvas-raised) !important;
+  color: var(--oc-ink) !important;
+  border: 1px solid var(--oc-hairline) !important;
+  box-shadow: var(--oc-shadow-sm) !important;
+}
+
+.elysium-canvas .grid > div[class*='StatBlock'],
+.elysium-canvas .group > div[class*='StatBlock'] {
+  background: var(--oc-canvas-raised) !important;
+  border-color: var(--oc-hairline) !important;
+}
+
+div[class*='StatBlock'] {
+  position: relative;
+  overflow: hidden;
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--oc-canvas-raised) 92%, var(--oc-canvas-soft-2)) 0%, var(--oc-canvas-raised) 100%) !important;
+  border-radius: 0 !important;
+}
+
+/* Hairline accent bar at bottom — terminal status-strip detail */
+div[class*='StatBlock']::after {
+  content: '';
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 1px;
+  background: var(--oc-accent);
+  opacity: 0.6;
+}
+
+.elysium-canvas canvas + *,
+.elysium-canvas [class*='Chart'] {
+  color: var(--oc-body) !important;
+}
+
+.elysium-canvas [class*='Chart'] > div,
+.elysium-canvas [class*='TitledGreyBox'] > div,
+.elysium-canvas [class*='NetworkStats'] > div {
+  background: transparent !important;
+  border-color: var(--oc-hairline) !important;
+}
+
+div[class*='StatBlock'] p,
+div[class*='StatBlock'] span {
+  color: var(--oc-body) !important;
+}
+
+div[class*='StatBlock'] p:first-child {
+  color: var(--oc-ink) !important;
+  font-weight: 500 !important;
+}
+
+div[class*='StatBlock'] svg {
+  color: var(--oc-muted) !important;
+}
+
+div[class*='StatBlock'] .icon {
+  background: var(--oc-canvas-soft-2) !important;
+  border: 1px solid var(--oc-hairline) !important;
+}
+
+div[class*='StatBlock'] [class*='text-xs'],
+div[class*='StatBlock'] [class*='text-sm'] {
+  color: var(--oc-muted) !important;
+}
+
+div[class*='StatBlock'] [class*='text-red'] {
+  color: var(--oc-danger) !important;
+}
+
+/* ==========================================================================
+   GreyRowBox / TitledGreyBox
+   ========================================================================== */
+
+a[class*='GreyRowBox'],
+div[class*='GreyRowBox'],
+div[class*='TitledGreyBox'] {
+  background: linear-gradient(180deg, color-mix(in srgb, var(--oc-canvas-raised) 94%, var(--oc-canvas-soft-2)) 0%, var(--oc-canvas-raised) 100%) !important;
+  border-radius: 0 !important;
+}
+
+.elysium-canvas a[class*='GreyRowBox'],
+.elysium-canvas div[class*='GreyRowBox'],
+.elysium-canvas div[class*='TitledGreyBox'] {
+  background: var(--oc-canvas-raised) !important;
+  border-color: var(--oc-hairline) !important;
+  color: var(--oc-body) !important;
+}
+
+.elysium-canvas a[class*='GreyRowBox']:hover,
+.elysium-canvas div[class*='GreyRowBox']:hover {
+  background: var(--oc-canvas-soft-2) !important;
+  border-color: var(--oc-hairline-md) !important;
+}
+
+.elysium-canvas a[class*='GreyRowBox'] svg,
+.elysium-canvas div[class*='GreyRowBox'] svg {
+  color: var(--oc-muted) !important;
+}
+
+a[class*='GreyRowBox'] .icon,
+div[class*='GreyRowBox'] .icon {
+  background: var(--oc-canvas-soft-2) !important;
+  border: 1px solid var(--oc-hairline) !important;
+  color: var(--oc-ink) !important;
+}
+
+/* ==========================================================================
+   Terminal (Xterm.js)
+   ========================================================================== */
+
+.xterm,
+.xterm-viewport,
+.xterm-screen,
+pre,
+code[class*='cm-'],
+.CodeMirror {
+  background: var(--oc-canvas) !important;
+  color: var(--oc-ink) !important;
+  border-color: var(--oc-hairline) !important;
+  font-family: var(--oc-font) !important;
+}
+
+.CodeMirror-gutters,
+.cm-s-default .CodeMirror-gutters,
+.cm-s-material .CodeMirror-gutters {
+  background: var(--oc-canvas-soft-2) !important;
+  border-right-color: var(--oc-hairline) !important;
+}
+
+canvas {
+  background: transparent !important;
+}
+
+/* ==========================================================================
+   Form Controls
+   ========================================================================== */
+
+input,
+textarea,
+select,
+.form-control {
+  font-family: var(--oc-font) !important;
+  background: var(--oc-canvas-raised) !important;
+  color: var(--oc-ink) !important;
+  border-color: var(--oc-hairline) !important;
+  border-radius: var(--oc-radius-sm) !important;
+  font-size: var(--oc-font-size);
+  height: 36px;
+  padding: 8px 12px;
+}
+
+input:focus,
+textarea:focus,
+select:focus,
+.form-control:focus {
+  border-color: var(--oc-accent) !important;
+  box-shadow: 0 0 0 2px rgba(0, 122, 255, 0.15) !important;
+  outline: none;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--oc-disabled) !important;
+}
+
+/* ==========================================================================
+   Buttons
+   ========================================================================== */
+
+button:not(.elysium-theme-toggle),
+.btn {
+  font-family: var(--oc-font) !important;
+  font-size: var(--oc-font-size);
+  font-weight: 500;
+  line-height: 2;
+  border-radius: var(--oc-radius-sm);
+  transition: background-color 0.1s ease, border-color 0.1s ease;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background: var(--oc-accent) !important;
+  border: 1px solid var(--oc-accent) !important;
+  color: #fff !important;
+}
+
+.btn-primary:hover {
+  background: var(--oc-accent-hover) !important;
+  border-color: var(--oc-accent-hover) !important;
+}
+
+.btn-secondary,
+.btn-default {
+  background: var(--oc-canvas-soft-2) !important;
+  border: 1px solid var(--oc-hairline) !important;
+  color: var(--oc-ink) !important;
+}
+
+.btn-secondary:hover,
+.btn-default:hover {
+  background: var(--oc-canvas-raised) !important;
+  border-color: var(--oc-hairline-md) !important;
+}
+
+.btn-danger {
+  background: var(--oc-danger) !important;
+  border: 1px solid var(--oc-danger) !important;
+  color: #fff !important;
+}
+
+.btn-danger:hover {
+  background: var(--oc-danger-hover) !important;
+}
+
+.btn-warning {
+  background: rgba(255, 159, 10, 0.1) !important;
+  border: 1px solid rgba(255, 159, 10, 0.2) !important;
+  color: var(--oc-warning) !important;
+}
+
+.btn-success {
+  background: rgba(48, 209, 88, 0.1) !important;
+  border: 1px solid rgba(48, 209, 88, 0.2) !important;
+  color: var(--oc-success) !important;
+}
+
+/* ==========================================================================
+   Tabs
+   ========================================================================== */
+
+.nav-tabs .nav-link,
+.tab {
+  font-family: var(--oc-font) !important;
+  color: var(--oc-muted) !important;
+  border-radius: 0 !important;
+  border-bottom: 2px solid transparent;
+  font-size: var(--oc-font-size);
+  font-weight: 400;
+  letter-spacing: 0;
+  transition: color 0.1s ease, border-color 0.1s ease;
+}
+
+.nav-tabs .nav-link:hover,
+.tab:hover {
+  color: var(--oc-body) !important;
+}
+
+.nav-tabs .nav-link.active,
+.tab.active {
+  color: var(--oc-ink) !important;
+  border-bottom-color: var(--oc-accent) !important;
+}
+
+/* ==========================================================================
+   File Manager — CSS-module rows
+   ========================================================================== */
+
+.elysium-canvas .style-module_HHpjDvv7 {
+  background: var(--oc-canvas-raised) !important;
+  background-color: var(--oc-canvas-raised) !important;
+  border: 1px solid var(--oc-hairline) !important;
+  border-radius: 0 !important;
+  color: var(--oc-body) !important;
+  margin-bottom: 4px !important;
+}
+
+.elysium-canvas .style-module_HHpjDvv7 > .style-module_le7taa7N,
+.elysium-canvas .style-module_HHpjDvv7 > .style-module_le7taa7N > * {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+.elysium-canvas .style-module_HHpjDvv7 .style-module_le7taa7N,
+.elysium-canvas .style-module_HHpjDvv7 .style-module_le7taa7N span,
+.elysium-canvas .style-module_HHpjDvv7 .style-module_le7taa7N a {
+  color: var(--oc-body) !important;
+}
+
+.elysium-canvas .style-module_HHpjDvv7:has(input[type="checkbox"]:checked) {
+  background: color-mix(in srgb, var(--oc-accent) 6%, var(--oc-canvas-raised)) !important;
+  border-color: color-mix(in srgb, var(--oc-accent) 30%, var(--oc-hairline)) !important;
+}
+
+.elysium-canvas .style-module_HHpjDvv7:has(input[type="checkbox"]:checked) .style-module_le7taa7N,
+.elysium-canvas .style-module_HHpjDvv7:has(input[type="checkbox"]:checked) .style-module_le7taa7N span,
+.elysium-canvas .style-module_HHpjDvv7:has(input[type="checkbox"]:checked) .style-module_le7taa7N a {
+  color: var(--oc-ink) !important;
+}
+
+.elysium-canvas .style-module_HHpjDvv7:hover:not(:has(input[type="checkbox"]:checked)) {
+  background: var(--oc-canvas-soft-2) !important;
+  border-color: var(--oc-hairline-md) !important;
+  color: var(--oc-ink) !important;
+}
+
+.elysium-canvas .style-module_HHpjDvv7 input[type="checkbox"],
+.elysium-canvas .style-module_fqm1ZNax input[type="checkbox"] {
+  border-color: var(--oc-hairline-md) !important;
+  background-color: transparent !important;
+}
+
+.elysium-canvas .style-module_HHpjDvv7 input[type="checkbox"]:hover,
+.elysium-canvas .style-module_fqm1ZNax input[type="checkbox"]:hover {
+  border-color: var(--oc-accent) !important;
+}
+
+.elysium-canvas .style-module_HHpjDvv7 input[type="checkbox"]:checked,
+.elysium-canvas .style-module_fqm1ZNax input[type="checkbox"]:checked {
+  background-color: var(--oc-accent) !important;
+  border-color: var(--oc-accent) !important;
+}
+
+/* ==========================================================================
+   Badges
+   ========================================================================== */
+
+.badge {
+  font-family: var(--oc-font) !important;
+  border-radius: var(--oc-radius-sm) !important;
+  font-size: var(--oc-font-size-sm);
+  font-weight: 400;
+  line-height: 2;
+  padding: 2px 8px;
+}
+
+.badge.bg-green,
+.badge.bg-success {
+  background: rgba(48, 209, 88, 0.15) !important;
+  color: var(--oc-success) !important;
+}
+
+.badge.bg-red,
+.badge.bg-danger {
+  background: rgba(255, 69, 58, 0.15) !important;
+  color: var(--oc-danger) !important;
+}
+
+.badge.bg-yellow,
+.badge.bg-warning {
+  background: rgba(255, 159, 10, 0.15) !important;
+  color: var(--oc-warning) !important;
+}
+
+.badge.bg-blue,
+.badge.bg-info {
+  background: rgba(0, 122, 255, 0.15) !important;
+  color: var(--oc-accent) !important;
+}
+
+/* ==========================================================================
+   Progress / Resource Bars
+   ========================================================================== */
+
+.progress,
+[class*='progress'] {
+  background-color: var(--oc-canvas-soft-2) !important;
+  border-radius: var(--oc-radius-full) !important;
+  height: 6px;
+}
+
+.progress-bar,
+[class*='progress-bar'] {
+  background: var(--oc-accent) !important;
+  border-radius: var(--oc-radius-full) !important;
+}
+
+/* Resource bar colors */
+.bg-green,
+.bg-success {
+  background: var(--oc-success) !important;
+}
+
+.bg-yellow,
+.bg-warning {
+  background: var(--oc-warning) !important;
+}
+
+.bg-red,
+.bg-danger {
+  background: var(--oc-danger) !important;
+}
+
+/* ==========================================================================
+   Dropdowns
+   ========================================================================== */
+
+.dropdown-menu {
+  font-family: var(--oc-font) !important;
+  background: var(--oc-canvas-raised) !important;
+  border: 1px solid var(--oc-hairline) !important;
+  border-radius: var(--oc-radius-sm) !important;
+  box-shadow: var(--oc-shadow-md) !important;
+}
+
+.dropdown-item {
+  color: var(--oc-body) !important;
+  font-family: var(--oc-font) !important;
+  font-size: var(--oc-font-size);
+  padding: 8px 16px;
+}
+
+.dropdown-item:hover {
+  background: var(--oc-canvas-soft-2) !important;
+  color: var(--oc-ink) !important;
+}
+
+/* ==========================================================================
+   Alerts
+   ========================================================================== */
+
+.alert {
+  font-family: var(--oc-font) !important;
+  border-radius: var(--oc-radius-sm) !important;
+  border: 1px solid var(--oc-hairline) !important;
+  padding: 12px 16px;
+}
+
+.alert-success {
+  background: rgba(48, 209, 88, 0.08) !important;
+  border-color: rgba(48, 209, 88, 0.2) !important;
+  color: var(--oc-ink) !important;
+}
+
+.alert-danger {
+  background: rgba(255, 69, 58, 0.08) !important;
+  border-color: rgba(255, 69, 58, 0.2) !important;
+  color: var(--oc-ink) !important;
+}
+
+.alert-warning {
+  background: rgba(255, 159, 10, 0.08) !important;
+  border-color: rgba(255, 159, 10, 0.2) !important;
+  color: var(--oc-ink) !important;
+}
+
+.alert-info {
+  background: rgba(0, 122, 255, 0.08) !important;
+  border-color: rgba(0, 122, 255, 0.2) !important;
+  color: var(--oc-ink) !important;
+}
+
+/* ==========================================================================
+   Spinner / Loading
+   ========================================================================== */
+
+.spinner,
+[class*='spinner'] {
+  border-color: var(--oc-hairline-md);
+  border-top-color: var(--oc-accent);
+}
+
+/* ==========================================================================
+   Dividers
+   ========================================================================== */
+
+hr,
+[class*='divider'] {
+  border: none;
+  border-top: 1px solid var(--oc-hairline);
+}
+
+/* ==========================================================================
+   Tooltips
+   ========================================================================== */
+
+.tooltip {
+  font-family: var(--oc-font) !important;
+}
+
+.tooltip-inner {
+  background: var(--oc-canvas-soft-2) !important;
+  color: var(--oc-ink) !important;
+  border: 1px solid var(--oc-hairline) !important;
+  border-radius: var(--oc-radius-sm) !important;
+  font-family: var(--oc-font) !important;
+  font-size: var(--oc-font-size-sm);
+  padding: 6px 10px;
+}
+
+/* ==========================================================================
+   Toggle / Switch
+   ========================================================================== */
+
+.toggle,
+[class*='toggle'] {
+  background-color: var(--oc-hairline-md) !important;
+  border-radius: var(--oc-radius-full) !important;
+}
+
+.toggle.active,
+[class*='toggle active'] {
+  background-color: var(--oc-accent) !important;
+}
+
+.toggle-thumb,
+[class*='toggle-thumb'] {
+  background-color: var(--oc-ink) !important;
+  border-radius: var(--oc-radius-full) !important;
+}
+
+/* ==========================================================================
+   Pagination
+   ========================================================================== */
+
+.pagination > li > a,
+.pagination > li > span {
+  color: var(--oc-body) !important;
+  background: transparent !important;
+  border-color: var(--oc-hairline) !important;
+  font-family: var(--oc-font) !important;
+}
+
+.pagination > .active > a,
+.pagination > .active > span {
+  background: var(--oc-accent) !important;
+  border-color: var(--oc-accent) !important;
+  color: #fff !important;
+}
+
+.pagination > li > a:hover {
+  background: var(--oc-canvas-soft-2) !important;
+  border-color: var(--oc-hairline-md) !important;
+  color: var(--oc-ink) !important;
+}
