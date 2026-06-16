@@ -59,7 +59,7 @@ download_bundle() {
     local zip_path="$workdir/elipso-theme.zip"
     local src_dir="$workdir/src"
 
-    log "downloading latest Elipso bundle"
+    log "downloading latest Elipso theme"
     need_cmd unzip
 
     if command -v curl >/dev/null 2>&1; then
@@ -95,6 +95,7 @@ backup_files() {
     local panel_dir="$1"
     local backup_dir="$2"
 
+    log "backing up current theme files"
     sudo_cmd mkdir -p "$backup_dir"
 
     [[ -f "$panel_dir/resources/views/templates/wrapper.blade.php" ]] && sudo_cmd cp -a "$panel_dir/resources/views/templates/wrapper.blade.php" "$backup_dir/wrapper.blade.php"
@@ -109,6 +110,7 @@ install_theme() {
     local panel_dir="$2"
     local assets_tmp=""
 
+    log "installing theme views and CSS"
     sudo_cmd install -d "$panel_dir/resources/views/templates/base"
     sudo_cmd install -d "$panel_dir/resources/views/layouts"
     sudo_cmd install -d "$panel_dir/public/themes/elipso-vercel"
@@ -124,6 +126,7 @@ install_theme() {
     sudo_cmd cp -r "$source_dir/resources/scripts/." "$panel_dir/resources/scripts/"
 
     if [[ -d "$source_dir/public/assets" ]] && [[ -f "$source_dir/public/assets/manifest.json" ]]; then
+        log "installing prebuilt JS assets"
         assets_tmp="$panel_dir/public/assets.elipso.$$"
         sudo_cmd rm -rf "$assets_tmp"
         sudo_cmd mkdir -p "$assets_tmp"
@@ -150,68 +153,26 @@ fix_permissions() {
     fi
 }
 
-restore_default_panel() {
+install_graceful() {
     local panel_dir="$1"
-    log "restoring panel to default files to ensure default theme baseline"
-    
-    cd "$panel_dir"
-    sudo_cmd php artisan down || true
-    
-    log "downloading and extracting latest panel release files..."
-    curl -L https://github.com/pterodactyl/panel/releases/latest/download/panel.tar.gz | sudo_cmd tar -xzv
-    
-    log "setting baseline folder permissions..."
-    sudo_cmd chmod -R 755 storage/* bootstrap/cache
-    
-    log "running composer installation..."
-    sudo_cmd composer install --no-dev --optimize-autoloader
-    
-    log "clearing Laravel caches..."
-    sudo_cmd php artisan view:clear
-    sudo_cmd php artisan config:clear
-    
-    log "running database migrations..."
-    sudo_cmd php artisan migrate --seed --force
-    
-    log "setting ownership permissions to www-data..."
-    if id -u www-data >/dev/null 2>&1; then
-        sudo_cmd chown -R www-data:www-data "$panel_dir"/* >/dev/null 2>&1 || true
-    fi
-    
-    log "restarting queue workers..."
-    sudo_cmd php artisan queue:restart
-    sudo_cmd php artisan up
-    
-    log "restarting nginx, redis-server, and pteroq systemctl services..."
-    sudo_cmd systemctl restart nginx redis-server pteroq || true
-}
+    local source_dir="$2"
+    local installed=0
 
-build_assets() {
-    local panel_dir="$1"
-    
-    # Check if yarn command is available on target system
-    if command -v yarn >/dev/null 2>&1; then
-        log "installing node dependencies and compiling production assets inside panel"
+    install_theme "$source_dir" "$panel_dir" && installed=1
+
+    if command -v yarn >/dev/null 2>&1 && command -v node >/dev/null 2>&1; then
+        log "compiling production assets with yarn (this may take a minute)..."
         cd "$panel_dir"
-        
-        # Set OpenSSL legacy provider to ensure compatibility with Webpack
         export NODE_OPTIONS=--openssl-legacy-provider
-        
-        sudo_cmd yarn install
-        sudo_cmd yarn build:production
+        sudo_cmd yarn install >/dev/null 2>&1 && sudo_cmd yarn build:production >/dev/null 2>&1 && log "assets built successfully" || log "yarn build skipped (run manually if needed)"
     else
-        log "WARNING: 'yarn' command not found. Skipping server-side compilation."
-        log "Please run 'yarn install && yarn build:production' inside $panel_dir manually to compile React components."
+        log "node/yarn not found — using prebuilt assets"
     fi
 }
 
 main() {
     need_cmd php
-    need_cmd cp
-    need_cmd install
     need_cmd curl
-    need_cmd tar
-    need_cmd composer
 
     local panel_dir
     panel_dir="$(detect_panel_dir "${1:-}")"
@@ -225,13 +186,8 @@ main() {
     log "creating backup at $backup_dir"
     backup_files "$panel_dir" "$backup_dir"
 
-    restore_default_panel "$panel_dir"
+    install_graceful "$panel_dir" "$source_dir"
 
-    log "installing theme files"
-    install_theme "$source_dir" "$panel_dir"
-    
-    build_assets "$panel_dir"
-    
     clear_panel_cache "$panel_dir"
     fix_permissions "$panel_dir"
 
@@ -239,9 +195,10 @@ main() {
     printf '\n'
     printf 'Panel:   %s\n' "$panel_dir"
     printf 'Backup:  %s\n' "$backup_dir"
-    printf 'Theme:   dark-only premium panel skin enabled\n'
+    printf 'Theme:   elipso enabled\n'
     printf '\n'
-    printf 'Next: hard refresh your browser once to load the new assets and styles.\n'
+    printf 'Next: hard refresh your browser (Ctrl+Shift+R) to see the new theme.\n'
+    printf '      To revert: sudo cp -a %s/* %s/\n' "$backup_dir" "$panel_dir"
 }
 
 main "$@"

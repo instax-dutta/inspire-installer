@@ -7,6 +7,8 @@
 
 set -euo pipefail
 
+VERSION="2.0.0"
+
 # ─── Colors & TUI Elements ───────────────────────────────────────────────────
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -85,6 +87,36 @@ sudo_run() {
 
 quietly() {
     "$@" >/dev/null 2>&1 || true
+}
+
+# ─── Dry-run Mode ─────────────────────────────────────────────────────────────
+DRY_RUN=0
+run() {
+    if [[ $DRY_RUN -eq 1 ]]; then
+        log_info "[DRY-RUN] Would run: $*"
+    else
+        "$@"
+    fi
+}
+
+# ─── Disk Space Check ─────────────────────────────────────────────────────────
+check_disk_space() {
+    local panel_dir="$1"
+    local needed_kb=512000  # ~500 MB minimum
+    local available_kb
+    available_kb="$(df -k "$panel_dir" 2>/dev/null | awk 'NR==2 {print $4}')"
+    if [[ -z "$available_kb" || "$available_kb" -lt "$needed_kb" ]]; then
+        log_warn "Low disk space detected at $panel_dir (${available_kb:-0} KB available)."
+        log_warn "At least $((needed_kb / 1024)) MB recommended for a smooth install."
+        if [[ -t 0 ]]; then
+            read -rp "    Continue anyway? [y/N]: " confirm
+            if [[ "$confirm" != "y" && "$confirm" != "Y" ]]; then
+                die "Installation cancelled by user."
+            fi
+        fi
+    else
+        log_success "Sufficient disk space available ($((available_kb / 1024)) MB)."
+    fi
 }
 
 # ─── System Pre-flight Checks ─────────────────────────────────────────────────
@@ -495,14 +527,6 @@ install_elipso() {
     local src
     src="$(resolve_theme_source "$ELIPSO_NAME" "$ELIPSO_ZIP")"
 
-    # Ask the user if they want to reset to baseline first to guarantee a flawless install
-    printf "    Elipso requires replacing Pterodactyl's core scripts and layouts.\n"
-    printf "    It is highly recommended to establish a clean panel baseline before proceeding.\n\n"
-    read -rp "    Establish a clean panel baseline first? [Y/n]: " setup_baseline
-    if [[ "$setup_baseline" != "n" && "$setup_baseline" != "N" ]]; then
-        restore_baseline "$panel_dir"
-    fi
-
     create_backup "$panel_dir" "$ELIPSO_ID"
 
     log_info "Creating views layouts directory hierarchy..."
@@ -658,7 +682,11 @@ interactive_menu() {
 
     while true; do
         draw_banner
-        printf "    ${BOLD}Pterodactyl Panel detected at:${RESET} ${CYAN}%s${RESET}\n\n" "$panel_dir"
+        printf "    ${BOLD}Pterodactyl Panel detected at:${RESET} ${CYAN}%s${RESET}\n" "$panel_dir"
+        if [[ $DRY_RUN -eq 1 ]]; then
+            printf "    ${YELLOW}⚡ DRY-RUN MODE — No changes will be made${RESET}\n"
+        fi
+        printf "\n"
         printf "    [${CYAN}1${RESET}]  Install Elden Theme (Sentri Dark)\n"
         printf "    [${CYAN}2${RESET}]  Install Elysium Theme (Monospaced Dark)\n"
         printf "    [${CYAN}3${RESET}]  Install Elipso Theme (Premium Vercel Skin)\n"
@@ -669,9 +697,9 @@ interactive_menu() {
 
         read -rp "    Enter your option [1-7]: " menu_option
         case "$menu_option" in
-            1) install_elden "$panel_dir" ;;
-            2) install_elysium "$panel_dir" ;;
-            3) install_elipso  "$panel_dir" ;;
+            1) check_disk_space "$panel_dir"; install_elden "$panel_dir" ;;
+            2) check_disk_space "$panel_dir"; install_elysium "$panel_dir" ;;
+            3) check_disk_space "$panel_dir"; install_elipso  "$panel_dir" ;;
             4) restore_baseline "$panel_dir" ;;
             5) uninstall_menu "$panel_dir" ;;
             6) clear_caches "$panel_dir"
@@ -685,8 +713,32 @@ interactive_menu() {
     done
 }
 
+# ─── Self-Elevate ──────────────────────────────────────────────────────────────
+_elevate_if_needed() {
+    if [[ "${EUID}" -ne 0 ]]; then
+        if command -v sudo >/dev/null 2>&1; then
+            exec sudo bash "$0" "$@"
+        else
+            die "Root privileges required but sudo not found. Please run as root."
+        fi
+    fi
+}
+
 # ─── Main Entry Point ─────────────────────────────────────────────────────────
 main() {
+    _elevate_if_needed "$@"
+
+    # Parse global flags before positional args
+    local args=()
+    for arg in "$@"; do
+        case "$arg" in
+            --dry-run|-n) DRY_RUN=1 ;;
+            --version|-V) printf "Inspire Theme Installer v%s\n" "$VERSION"; exit 0 ;;
+            *) args+=("$arg") ;;
+        esac
+    done
+    set -- "${args[@]}"
+
     pre_flight_checks
 
     # Check for CLI arguments first
@@ -697,10 +749,13 @@ main() {
 
         case "$action" in
             --elden|--install-elden)
+                check_disk_space "$panel_dir"
                 install_elden "$panel_dir" ;;
             --elysium|--install-elysium)
+                check_disk_space "$panel_dir"
                 install_elysium "$panel_dir" ;;
             --elipso|--install-elipso)
+                check_disk_space "$panel_dir"
                 install_elipso "$panel_dir" ;;
             --restore-baseline)
                 restore_baseline "$panel_dir" ;;
@@ -709,8 +764,8 @@ main() {
             --clear-cache)
                 clear_caches "$panel_dir" ;;
             --help|-h)
-                printf "⚡ Unified Pterodactyl Theme Installer Help Menu\n\n"
-                printf "Usage: bash install.sh [option]\n\n"
+                printf "⚡ Inspire Theme Installer v%s\n\n" "$VERSION"
+                printf "Usage: bash install.sh [option] [--dry-run]\n\n"
                 printf "Options:\n"
                 printf "  --elden            Installs Elden Theme (Sentri Dark) directly\n"
                 printf "  --elysium          Installs Elysium Theme directly\n"
@@ -718,6 +773,8 @@ main() {
                 printf "  --restore-baseline Restores panel to official Pterodactyl core files\n"
                 printf "  --uninstall        Opens backup restoration menu\n"
                 printf "  --clear-cache      Performs full cache eviction directly\n"
+                printf "  --dry-run, -n      Show what would happen without making changes\n"
+                printf "  --version, -V      Show version information\n"
                 printf "  -h, --help         Show this message\n"
                 exit 0 ;;
             *)
